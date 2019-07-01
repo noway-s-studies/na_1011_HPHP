@@ -1,0 +1,22 @@
+#cikkek, table {
+    width: 400px;
+    border: 1px solid black;
+    margin: 5px;
+}
+table tr td {
+    padding: 5px 5px 10px 10px;
+}
+#cikkek a {
+    cursor: pointer;
+    display: block;
+    background-color: burlywood;
+    border-bottom: 1px solid #999;
+    padding: 5px;
+}
+#cikkek a:hover {
+    background-color: coral;
+}
+#cikkek div {
+    background-color: aliceblue;
+    padding: 10px 5px 15px;
+}
