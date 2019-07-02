@@ -13,6 +13,24 @@
     $c = new Control("kontrol");
     $b = new Button("gomb", "Katt!", "gomnok", "gomb_1122");
     $b->Render();
+
+    include_once 'oop.php';
+    $a = new Auto();
+
+    $ir = new HTMLControl();
+    $ir->Render();
+    $ir->TextRender();
+
+    $t = new Table("test",5,8);
+    $t->Feltolt();
+    $t->Render();
+
+    $t->AddControll(0,0, $b->Get());
+    $t->AddControll(3,3, $b->Get());
+    $t->AddControll(0,2, $b->Get());
+    $t->AddControll(4,1, $b->Get());
+    $t->AddControll(4,6, $b->Get());
+    $t->Render();
 ?>
 </body>
 </html>
