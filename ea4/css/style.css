@@ -1,0 +1,67 @@
+#page {
+    width: 800px;
+    border: 1px solid black;
+    background-color: #FFE699;
+}
+
+#header {
+    height: 60px;
+    background-color: #FFCC33;
+    border-bottom: 1px solid black;
+}
+
+#footer {
+    clear: both;
+    height: 60px;
+    background-color: #FFCC33;
+    border-top: 1px solid black;
+}
+
+#main {
+    height: 300px;
+    background-color: #FFE699;
+}
+
+#left {
+    float: left;
+    width: 150px;
+    padding: 10px;
+    min-height: 100%;
+    background-color: #FFD966;
+    border-right: 1px solid black;
+}
+
+#right {
+    float: right;
+    width: 150px;
+    padding: 10px;
+    min-height: 100%;
+    background-color: #FFD966;
+    border-left: 1px solid black;
+}
+
+#middle {
+    margin-left: 180px;
+    margin-right: 180px;
+    padding: 5px;
+    background-color: #FFE699;
+}
+
+.editmezo {
+    width: 200px;
+}
+
+.warning_uzi {
+    font-weight: 700;
+    color: magenta;
+}
+
+.error_uzi {
+    font-weight: 700;
+    color: red;
+}
+
+.accept_uzi {
+    font-weight: 700;
+    color: green;
+}

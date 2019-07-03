@@ -1,14 +1,11 @@
 <?php
-
 class Control {
-
     public $Type;
     public $Name;
     public $Class;
     public $Id;
     public $Value;
     public $Click;
-
     function __construct($name, $type="", $class="", $id=""){
         $this->Name = $name;
         $this->Type = $type;
@@ -18,12 +15,10 @@ class Control {
 }
 
 class Button extends Control {
-
     function __construct($name, $value, $class="", $id=""){
         $this->Value = $value;
         parent::__construct($name, "button", $class, $id);
     }
-
     function Render(){
         $out = "<input ";
         if($this->Type!="") $out .= " type='$this->Type'";
@@ -35,7 +30,6 @@ class Button extends Control {
         $out .= " />";
         print $out;
     }
-
     function Get(){
         $out = "<input ";
         if($this->Type!="") $out .= " type='$this->Type'";
@@ -50,11 +44,9 @@ class Button extends Control {
 }
 
 class Table extends Control {
-
     public $Sor;
     public $Oszlop;
     public $Cellak = array();
-
     function __construct($name, $sor=1, $oszlop=1){
         $this->Sor = $sor;
         $this->Oszlop = $oszlop;
@@ -63,11 +55,9 @@ class Table extends Control {
             $this->Cellak[$i] = array();
         }
     }
-
     function AddControll($sor, $oszlop, $control){
         $this->Cellak[$sor][$oszlop] = $control;
     }
-
     function Feltolt(){
         for($i=0; $i<$this->Sor; $i++){
             for($j=0; $j<$this->Oszlop; $j++){
@@ -75,7 +65,6 @@ class Table extends Control {
             }
         }
     }
-
     function Render(){
         $out = "<table border=1>";
         for($i=0; $i<$this->Sor; $i++){
