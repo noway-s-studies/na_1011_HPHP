@@ -20,8 +20,8 @@
     function show_uzenet() {
         if(isset($_SESSION["uzenet"]) && is_array($_SESSION["uzenet"])) {
             foreach ($_SESSION["uzenet"] as $uzi) {
-            print $uzi;
-        }
+                print $uzi;
+            }
             unset($_SESSION["uzenet"]);
         }
     }
