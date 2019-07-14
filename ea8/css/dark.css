@@ -1,0 +1,11 @@
+#page, #middle  {
+    background-color: #BCBC7B;
+}
+
+#main, #left, #right  {
+    background-color: #ABAB59;
+}
+
+#header, #footer {
+    background-color: #9C9C4F;
+}

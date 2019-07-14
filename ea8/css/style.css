@@ -1,0 +1,116 @@
+
+#page {
+    width: 900px;
+    border: 1px solid black;
+    background-color: #FFE699;
+}
+
+#header {
+    height: 60px;
+    background-color: #FFCC33;
+    border-bottom: 1px solid black;
+}
+
+#footer {
+    clear: both;
+    height: 60px;
+    background-color: #FFCC33;
+    border-top: 1px solid black;
+}
+
+#main {
+    min-height: 400px;
+    background-color: #FFD966;
+}
+
+#left {
+    float: left;
+    width: 150px;
+    padding: 10px;    
+    background-color: #FFD966;
+}
+
+#right {
+    float: right;
+    width: 150px;
+    padding: 10px;
+    background-color: #FFD966;
+}
+
+#middle {
+    margin-left: 180px;
+    margin-right: 180px;
+    padding: 10px;
+    min-height: 400px;
+  	height:auto !important;
+		height: 400px;
+    background-color: #FFE699;
+    border-left: 1px solid black;
+    border-right: 1px solid black;
+}
+
+.editmezo {
+    width: 200px;
+}
+
+.warning_uzi {
+    font-weight: 700;
+    color: magenta;
+}
+.error_uzi {
+    font-weight: 700;
+    color: red;
+}
+.accept_uzi {
+    font-weight: 700;
+    color: green;
+}
+
+
+.userkep {
+		width: 100px;
+		padding: 3px;
+		border: 1px solid #c0c0c0;
+}
+
+.bloguserkep {
+		float: right;
+		width: 150px;
+		padding: 3px;
+		margin: 10px;
+		border: 1px solid #c0c0c0;
+}
+
+
+.commenthead {
+    padding: 5px;
+    cursor: pointer;
+    background-color: #ffd24d;
+    font-weight: 500;
+    margin: 1px;
+}
+
+.commentbody {
+    padding: 5px;
+    background-color: #ffecb3;
+}
+
+#commentlisthead {
+    padding: 10px;
+    cursor: pointer;
+    background-color: #cccc99;
+    font-weight: 700;
+    color: blue;
+}
+
+.hidden {
+    display: none;
+}
+
+.watermark {
+    color: #f65 !important;
+}
+
+.noborder {
+    border: none;
+}
