@@ -1,0 +1,7 @@
+RewriteEngine on
+
+RewriteBase /BlogMotor/
+RewriteRule ^index.html$ index.php
+RewriteRule ^index.htm$ index.php
+RewriteRule ^osszes$ blogs.php
+RewriteRule ^showblog/([0-9]+)/.*$ showblog.php?bid=$1
