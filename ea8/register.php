@@ -2,15 +2,11 @@
     include_once 'inc/init.php';
     include_once 'securimage/securimage.php';
     $img=new Securimage();
-
-    // ide jon a jogosultsagkezeles (lapszintu)
-    // validalas
-
+    // ide jon a jogosultsagkezeles (lapszintu) validalas
     if(isset($_POST["submitgomb"]))
         $isposted=true;
     else
         $isposted=false;
-
     if($isposted) {
         $uzenet=array();
         $email="";
@@ -53,7 +49,6 @@
             $valid=false;
             array_push($uzenet,create_uzi("Hibásan adta meg a képen látható kódot!","error"));
         }
-
         if($valid) {
             // insert into
             $u=new User();
@@ -63,10 +58,7 @@
             $u->active=true;
             $u->datum=date("Y-m-d H:i:s");
             $u->save();
-
-            // aktivacio egyelore nincs
-
-            // welcome oldal, udvozles, auto beleptetes
+            // aktivacio
             array_push($uzenet,create_uzi("Köszöntünk! A regisztrációd sikeres!","accept"));
             array_push($uzenet,create_uzi("Az aktivációs linket elküldtük a megadott email címedre!","accept"));
             $_SESSION["uzenet"]=$uzenet;
@@ -85,7 +77,6 @@
             header("Location: register.php"); exit();
         }
     }
-
     include_once 'inc/head.php';
 ?>
 <script type="text/javascript">
@@ -160,12 +151,9 @@
     $u->password="dodo";
     $u->setNev("Gipsz Jakab");
     print "Nev: ".$u->getNev();
-
     $u2=$u;
     $u2->setNev("Nyomasek BObo");
-
     print "Jelszo: ".$u->password;
-    
 ?>
 </div>
 <?php

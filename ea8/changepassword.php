@@ -1,16 +1,13 @@
 <?php
     include_once 'inc/init.php';
-
-    // ide jon a jogosultsagkezeles (lapszintu)
+    // ide jon a jogosultsagkezeles (lapszintu) validalas
     if(!user_is_logged()) {
     	header("Location: noaccess.php"); exit();
     }
-    // validalas
     if(isset($_POST["submit"]))
         $isposted=true;
     else
         $isposted=false;
-
     if($isposted) {
         $uzenet=array();
         $oldpassword="";
@@ -36,7 +33,6 @@
             $valid=false;
             array_push($uzenet,create_uzi("A jelszó és a megismételt jelszó nem egyezik meg!","error"));
         }
-        
         if($valid) {
             // update
             $u->md5pass=md5($glob_salt.$password); // sha1
@@ -48,10 +44,7 @@
             $_SESSION["uzenet"]=$uzenet;
             header("Location: changepassword.php"); exit();
         }
-        
     }
-        
-
     include_once 'inc/head.php';
 ?>
 <script type="text/javascript">
@@ -67,7 +60,6 @@
 <div id="middle">
 <?php
     show_uzenet();
-    // ide jon a kod
 ?>
 		<div id="changepasswordurlap">
         <form action="changepassword.php" method="post">

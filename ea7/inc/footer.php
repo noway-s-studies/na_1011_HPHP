@@ -1,9 +1,9 @@
-    </div>
-    <div id="footer"></div>
-  </div>
-</body>
+<!-- FOOTER START --> 
+            </div>
+            <div id="footer">
+                Lábléc
+            </div>
+        </div>
+    </body>
 </html>
-<?php
-    $manager->closeConnection($conn);
-    // $conn->close();
-?>
+<!-- FOOTER END --> 

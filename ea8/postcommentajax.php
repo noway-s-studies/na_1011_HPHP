@@ -1,10 +1,7 @@
 <?php
-
     include_once 'inc/init.php';
-    // validalas
-    // teszteljuk mintha lassu lenne
+    // ide jon a jogosultsagkezeles (lapszintu) validalas
     usleep(2000000);
-
     $bid=0;
     $szoveg="";
     if(isset($_POST["bid"])) $bid=$_POST["bid"];
@@ -25,17 +22,8 @@
         $c->visible=true;
         $c->datum=date('Y-m-d H:i:s');
         $c->Save();
-
-        // uzenet a szerzonek
-        $blog=Doctrine_Core::getTable('Blog')->find($bid);
-        $szerzo=Doctrine_Core::getTable('User')->find($blog->uid);
-        $eredmeny=SendMail("Blogmotor <noreply@blogmotor.hu>",$szerzo->email, 
-                "Válasz érkezett: ".$blog->cim, create_uzi($szoveg,"accept"));
-
-
         print create_uzi("Sikeresen mentettük az kommentet!", "accept");
     } else {
         print create_uzi("Nem sikerült", "error");
     }
-  
 ?>

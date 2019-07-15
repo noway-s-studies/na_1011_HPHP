@@ -1,0 +1,50 @@
+
+#main {
+    
+    background-color: #f3f3f3;
+}
+
+#page {
+    width: 800px;
+    border: 1px solid black;
+    background-color: #f1f1f1;
+}
+
+#header {
+    height: 60px;
+    background-color: yellow;
+}
+
+#footer {
+    clear: both;
+    height: 60px;
+    background-color: yellowgreen;
+}
+
+#left {
+    float: left;
+    width: 150px;
+    min-height: 100%;
+    background-color: #bbb;
+    border: 1px solid red;
+}
+
+#right {
+    float: right;
+    width: 150px;
+    min-height: 100%;
+    background-color: #eee;
+    border: 1px solid red;
+}
+
+#middle {
+    margin-left: 160px;
+    margin-right: 160px;
+    padding: 0px;
+    background-color: #f3f3f3;
+    border: 1px solid blue;
+}
+
+
+
+

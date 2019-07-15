@@ -1,11 +1,9 @@
       <div id="left">
           <?php
             if(user_is_logged()) {
-                // ide jon majd
                 $u=Doctrine_Core::getTable('User')->find($glob_uid);
                 $kepsrc=userpicture_url($u->picture);
                 print "<img src='$kepsrc' class='userkep' />";
-
                 print "<p>Bejelentkezve:</p>";
                 print "<p>$glob_usernev</p>";
                 print "<ul>";
@@ -28,8 +26,7 @@
                 print "</ul>";
             }
           ?>
-                    
       </div>
       <div id="right">
-          ide jönnek a reklámok
+          reklámok
       </div>

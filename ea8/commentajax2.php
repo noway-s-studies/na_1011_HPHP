@@ -1,9 +1,6 @@
 <?php
     include_once 'inc/init.php';
-
-    // ide jon a jogosultsagkezeles (lapszintu)
-    // validalas
-
+    // ide jon a jogosultsagkezeles (lapszintu) validalas
     include_once 'inc/head.php';
 ?>
 <script type="text/javascript">
@@ -19,8 +16,6 @@
 <div id="middle">
 <?php
     show_uzenet();
-    // ide jon a kod
-
     $bid=0;
     if(isset($_GET["bid"])) $bid=$_GET["bid"];
     $sql="SELECT c.szoveg,u.nev,c.datum FROM Comment as c ";
@@ -52,10 +47,6 @@
             }
         );
     </script>
-
-
-
-
 </div>
 <?php
     include_once 'inc/footer.php';

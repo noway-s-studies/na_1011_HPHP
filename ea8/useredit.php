@@ -1,17 +1,13 @@
 <?php
     include_once 'inc/init.php';
-
-    // ide jon a jogosultsagkezeles (lapszintu)
+    // ide jon a jogosultsagkezeles (lapszintu) validalas
     if(!user_is_logged()) {
         header("Location: noaccess.php"); exit();
     }
-    // validalas
-
     if(isset($_POST["submit"]))
         $isposted=true;
     else
         $isposted=false;
-
     if($isposted) {
         $uzenet=array();
         $nev="";
@@ -30,7 +26,6 @@
             $valid=false;
             array_push($uzenet,create_uzi("A téma nincs megadva!","error"));
         }
-
         if($valid) {
             $u=Doctrine_Core::getTable('User')->find($glob_uid);
             $_SESSION["usernev"]=$nev;
@@ -58,9 +53,7 @@
             $_SESSION["uzenet"]=$uzenet;
             header("Location: useredit.php"); exit();
         }
-    
     }
-
     include_once 'inc/head.php';
 ?>
 <script type="text/javascript">
@@ -76,13 +69,10 @@
 <div id="middle">
 <?php
     show_uzenet();
-    // ide jon a kod
-
     $u=Doctrine_Core::getTable('User')->find($glob_uid);
     $nev=$u->nev;
     $tema=$u->tema;
     $picture=$u->picture;
-
 ?>
     <div id="userediturlap">
         <form action="useredit.php" method="post" enctype="multipart/form-data">
@@ -120,8 +110,6 @@
             </table>
         </form>
     </div>
-
-
 </div>
 <?php
     include_once 'inc/footer.php';

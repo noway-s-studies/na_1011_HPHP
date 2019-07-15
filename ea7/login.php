@@ -1,31 +1,26 @@
 <?php
     include_once 'inc/init.php';
-    // ide jon a jogosultsagkezeles (lapszintu) validalas
-    if(isset($_POST["submit"]))
-        $isposted=true;
-    else
-        $isposted=false;
-    if($isposted) {
-        $uzenet=array();
-        $email="";
-        $password="";
-        if(isset($_POST["email"])) $email=$_POST["email"];
-        if(isset($_POST["password"])) $password=$_POST["password"];
-        $email=trim($email);
-        $password=trim($password);
 
-        if(strlen($email)>0 && strlen($email)<255 &&
-           strlen($password)>0 && strlen($password)<255 &&
-           user_try_login($email,$password)) {
-           array_push($uzenet,create_uzi("Sikeres belépés!","accept"));
-           $_SESSION["uzenet"]=$uzenet;
-           header("Location: index.php"); exit();
+    // ide jon a jogosultsagkezeles (lapszintu)
+    // validalas
+    if(isset($_POST["elkuld"])) {
+        $uzenet = array();
+        if(isset($_POST["login"])) $login = $_POST["login"];
+        if(isset($_POST["password"])) $password = $_POST["password"];
+        $trylogin = USER::TryLogin(trim($login), trim($password));
+        if(is_object($trylogin)) {
+            array_push($uzenet, create_uzi("Sikeres belépés","accept"));
+            $_SESSION["uzenet"]=$uzenet;
+            $_SESSION["user"]=$trylogin;
+            header("Location: index.php"); exit();
         } else {
-           array_push($uzenet,create_uzi("Hibás felhasználói név vagy jelszó!","error"));
-           $_SESSION["uzenet"]=$uzenet;
-           header("Location: login.php"); exit();
+            array_push($uzenet, create_uzi($trylogin,"error"));
+            $_SESSION["uzenet"]=$uzenet;
+            header("Location: login.php"); exit();
         }
+        
     }
+
     include_once 'inc/head.php';
 ?>
 <script type="text/javascript">
@@ -33,35 +28,33 @@
         function() { }
     )
 </script>
-<title>BlogMotor - Bejelentkezés</title>
+<title>Title</title>
 <?php
     include_once 'inc/header.php';
     include_once 'inc/menu.php';
 ?>
 <div id="middle">
 <?php
+    // ide jon a kod
     show_uzenet();
 ?>
-    <div id="loginurlap">
-        <form action="login.php" method="post">
-            <table>
-                <tr>
-                    <th colspan="2">Bejelentkezési adatok</th>
-                </tr>
-                <tr>
-                    <td>Email:</td>
-                    <td><input type="text" class="editmezo" name="email" id="email" /></td>
-                </tr>
-                <tr>
-                    <td>Jelszó</td>
-                    <td><input type="password" class="editmezo" name="password" id="password" /></td>
-                </tr>
-                <tr>
-                    <th colspan="2"><input type="submit" value="Belépés" name="submit" /></th>
-                </tr>
-            </table>
-        </form>
-    </div>
+    <form action="login.php" method="POST">
+        <table border=="1">
+            <tr>
+                <td>Felhasználói név</td>
+                <td><input  type="text" name="login" id="login" value='' /></td>
+            </tr>
+            
+            <tr>
+                <td>jelszó</td>
+                <td><input  type="password" name="password" id="password" value='' /></td>
+           </tr>           
+            
+            <tr>
+                <td colspan='2' align='center'><input type="submit" name="elkuld" id="elkuld" value='Belépek' /></td>
+            </tr>
+        </table>
+    </form>
 </div>
 <?php
     include_once 'inc/footer.php';

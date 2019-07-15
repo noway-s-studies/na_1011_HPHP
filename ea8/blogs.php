@@ -1,9 +1,6 @@
 <?php
     include_once 'inc/init.php';
-
-    // ide jon a jogosultsagkezeles (lapszintu)
-    // validalas
-
+    // ide jon a jogosultsagkezeles (lapszintu) validalas
     include_once 'inc/head.php';
 ?>
 <script type="text/javascript">
@@ -19,9 +16,6 @@
 <div id="middle">
 <?php
     show_uzenet();
-    // ide jon a kod
-
-    startprofiler("Blog betoltes");
     $stmt=$conn->execute("select u.uid,u.nev,b.bid,b.cim,b.cikk from Blog b inner join User u on b.uid=u.uid where visible = ?",array(1));
     while($sor = $stmt->fetch()) {
         print "<div class='miniblog'>";
@@ -32,8 +26,6 @@
         print "<hr>";
         print "</div>";
     }
-    stopprofiler("Blog betoltes");
-
 ?>
 </div>
 <?php

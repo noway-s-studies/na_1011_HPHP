@@ -1,5 +1,4 @@
 <?php
-
       // emailcim ellenorzes
       function validemail($email) {
         if(preg_match("/^[_a-z0-9-]+(\.[_a-z0-9-]+)*@[a-z0-9-]+(\.[a-z0-9-]+)*(\.[a-z]{2,3})$/i", $email))
@@ -44,24 +43,4 @@
           if(strpos($type,"bmp")!==false) return ".bmp";
           return "";
       }
-
-      function honapnev($h) {
-          switch ($h) {
-              case 1: return "jan."; break;
-              case 2: return "feb."; break;
-              case 3: return "márc."; break;
-              case 4: return "ápr."; break;
-              case 5: return "máj."; break;
-              case 6: return "jún."; break;
-              case 7: return "júl."; break;
-              case 8: return "aug."; break;
-              case 9: return "szept."; break;
-              case 10: return "okt."; break;
-              case 11: return "nov."; break;
-              case 12: return "dec."; break;
-              default: return "???";
-                  break;
-          }
-      }
-
 ?>

@@ -1,9 +1,6 @@
 <?php
     include_once 'inc/init.php';
-
-    // ide jon a jogosultsagkezeles (lapszintu)
-    // validalas
-
+    // ide jon a jogosultsagkezeles (lapszintu) validalas
     include_once 'inc/head.php';
 ?>
 <script type="text/javascript">

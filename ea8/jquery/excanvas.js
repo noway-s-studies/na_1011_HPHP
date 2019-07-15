@@ -1,58 +1,16 @@
-// Copyright 2006 Google Inc.
-//
-// Licensed under the Apache License, Version 2.0 (the "License");
-// you may not use this file except in compliance with the License.
-// You may obtain a copy of the License at
-//
-//   http://www.apache.org/licenses/LICENSE-2.0
-//
-// Unless required by applicable law or agreed to in writing, software
-// distributed under the License is distributed on an "AS IS" BASIS,
-// WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
-// See the License for the specific language governing permissions and
-// limitations under the License.
 
-
-// Known Issues:
-//
-// * Patterns are not implemented.
-// * Radial gradient are not implemented. The VML version of these look very
-//   different from the canvas one.
-// * Clipping paths are not implemented.
-// * Coordsize. The width and height attribute have higher priority than the
-//   width and height style values which isn't correct.
-// * Painting mode isn't implemented.
-// * Canvas width/height should is using content-box by default. IE in
-//   Quirks mode will draw the canvas using border-box. Either change your
-//   doctype to HTML5
-//   (http://www.whatwg.org/specs/web-apps/current-work/#the-doctype)
-//   or use Box Sizing Behavior from WebFX
-//   (http://webfx.eae.net/dhtml/boxsizing/boxsizing.html)
-// * Non uniform scaling does not correctly scale strokes.
-// * Optimize. There is always room for speed improvements.
-
-// Only add this code if we do not already have a canvas implementation
 if (!document.createElement('canvas').getContext) {
 
 (function() {
-
-  // alias some functions to make (compiled) code shorter
   var m = Math;
   var mr = m.round;
   var ms = m.sin;
   var mc = m.cos;
   var abs = m.abs;
   var sqrt = m.sqrt;
-
-  // this is used for sub pixel precision
   var Z = 10;
   var Z2 = Z / 2;
 
-  /**
-   * This funtion is assigned to the <canvas> elements as element.getContext().
-   * @this {HTMLElement}
-   * @return {CanvasRenderingContext2D_}
-   */
   function getContext() {
     return this.context_ ||
         (this.context_ = new CanvasRenderingContext2D_(this));
@@ -60,22 +18,6 @@ if (!document.createElement('canvas').getContext) {
 
   var slice = Array.prototype.slice;
 
-  /**
-   * Binds a function to an object. The returned function will always use the
-   * passed in {@code obj} as {@code this}.
-   *
-   * Example:
-   *
-   *   g = bind(f, obj, a, b)
-   *   g(c, d) // will do f.call(obj, a, b, c, d)
-   *
-   * @param {Function} f The function to bind the object to
-   * @param {Object} obj The object that should act as this when the function
-   *     is called
-   * @param {*} var_args Rest arguments that will be used as the initial
-   *     arguments when the function is called
-   * @return {Function} A new function that has bound this
-   */
   function bind(f, obj, var_args) {
     var a = slice.call(arguments, 2);
     return function() {
@@ -106,7 +48,6 @@ if (!document.createElement('canvas').getContext) {
                            '#default#VML');
       }
 
-      // Setup default CSS.  Only add one style sheet per document
       if (!doc.styleSheets['ex_canvas_']) {
         var ss = doc.createStyleSheet();
         ss.owningElement.id = 'ex_canvas_';
@@ -118,32 +59,16 @@ if (!document.createElement('canvas').getContext) {
 
       }
 
-      // find all canvas elements
       var els = doc.getElementsByTagName('canvas');
       for (var i = 0; i < els.length; i++) {
         this.initElement(els[i]);
       }
     },
 
-    /**
-     * Public initializes a canvas element so that it can be used as canvas
-     * element from now on. This is called automatically before the page is
-     * loaded but if you are creating elements using createElement you need to
-     * make sure this is called on the element.
-     * @param {HTMLElement} el The canvas element to initialize.
-     * @return {HTMLElement} the element that was created.
-     */
     initElement: function(el) {
       if (!el.getContext) {
-
         el.getContext = getContext;
-
-        // Remove fallback content. There is no way to hide text nodes so we
-        // just remove all childNodes. We could hide all elements and remove
-        // text nodes but who really cares about the fallback content.
         el.innerHTML = '';
-
-        // do not use inline function because that will leak memory
         el.attachEvent('onpropertychange', onPropertyChange);
         el.attachEvent('onresize', onResize);
 
@@ -170,7 +95,6 @@ if (!document.createElement('canvas').getContext) {
 
   function onPropertyChange(e) {
     var el = e.srcElement;
-
     switch (e.propertyName) {
       case 'width':
         el.style.width = el.attributes.width.nodeValue + 'px';
@@ -192,8 +116,6 @@ if (!document.createElement('canvas').getContext) {
   }
 
   G_vmlCanvasManager_.init();
-
-  // precompute "00" to "FF"
   var dec2hex = [];
   for (var i = 0; i < 16; i++) {
     for (var j = 0; j < 16; j++) {
@@ -211,15 +133,12 @@ if (!document.createElement('canvas').getContext) {
 
   function matrixMultiply(m1, m2) {
     var result = createMatrixIdentity();
-
     for (var x = 0; x < 3; x++) {
       for (var y = 0; y < 3; y++) {
         var sum = 0;
-
         for (var z = 0; z < 3; z++) {
           sum += m1[x][z] * m2[z][y];
         }
-
         result[x][y] = sum;
       }
     }
@@ -245,25 +164,21 @@ if (!document.createElement('canvas').getContext) {
 
   function processStyle(styleString) {
     var str, alpha = 1;
-
     styleString = String(styleString);
     if (styleString.substring(0, 3) == 'rgb') {
       var start = styleString.indexOf('(', 3);
       var end = styleString.indexOf(')', start + 1);
       var guts = styleString.substring(start + 1, end).split(',');
-
       str = '#';
       for (var i = 0; i < 3; i++) {
         str += dec2hex[Number(guts[i])];
       }
-
       if (guts.length == 4 && styleString.substr(3, 1) == 'a') {
         alpha = guts[3];
       }
     } else {
       str = styleString;
     }
-
     return {color: str, alpha: alpha};
   }
 
@@ -279,37 +194,25 @@ if (!document.createElement('canvas').getContext) {
     }
   }
 
-  /**
-   * This class implements CanvasRenderingContext2D interface as described by
-   * the WHATWG.
-   * @param {HTMLElement} surfaceElement The element that the 2D context should
-   * be associated with
-   */
   function CanvasRenderingContext2D_(surfaceElement) {
     this.m_ = createMatrixIdentity();
-
     this.mStack_ = [];
     this.aStack_ = [];
     this.currentPath_ = [];
-
-    // Canvas context properties
     this.strokeStyle = '#000';
     this.fillStyle = '#000';
-
     this.lineWidth = 1;
     this.lineJoin = 'miter';
     this.lineCap = 'butt';
     this.miterLimit = Z * 1;
     this.globalAlpha = 1;
     this.canvas = surfaceElement;
-
     var el = surfaceElement.ownerDocument.createElement('div');
     el.style.width =  surfaceElement.clientWidth + 'px';
     el.style.height = surfaceElement.clientHeight + 'px';
     el.style.overflow = 'hidden';
     el.style.position = 'absolute';
     surfaceElement.appendChild(el);
-
     this.element_ = el;
     this.arcScaleX_ = 1;
     this.arcScaleY_ = 1;
@@ -322,8 +225,6 @@ if (!document.createElement('canvas').getContext) {
   };
 
   contextPrototype.beginPath = function() {
-    // TODO: Branch current matrix so that save/restore has no effect
-    //       as per safari docs.
     this.currentPath_ = [];
   };
 
@@ -337,7 +238,6 @@ if (!document.createElement('canvas').getContext) {
   contextPrototype.lineTo = function(aX, aY) {
     var p = this.getCoords_(aX, aY);
     this.currentPath_.push({type: 'lineTo', x: p.x, y: p.y});
-
     this.currentX_ = p.x;
     this.currentY_ = p.y;
   };
@@ -351,7 +251,6 @@ if (!document.createElement('canvas').getContext) {
     bezierCurveTo(this, cp1, cp2, p);
   };
 
-  // Helper function that takes the already fixed cordinates.
   function bezierCurveTo(self, cp1, cp2, p) {
     self.currentPath_.push({
       type: 'bezierCurveTo',
@@ -367,12 +266,8 @@ if (!document.createElement('canvas').getContext) {
   }
 
   contextPrototype.quadraticCurveTo = function(aCPx, aCPy, aX, aY) {
-    // the following is lifted almost directly from
-    // http://developer.mozilla.org/en/docs/Canvas_tutorial:Drawing_shapes
-
     var cp = this.getCoords_(aCPx, aCPy);
     var p = this.getCoords_(aX, aY);
-
     var cp1 = {
       x: this.currentX_ + 2.0 / 3.0 * (cp.x - this.currentX_),
       y: this.currentY_ + 2.0 / 3.0 * (cp.y - this.currentY_)
@@ -381,7 +276,6 @@ if (!document.createElement('canvas').getContext) {
       x: cp1.x + (p.x - this.currentX_) / 3.0,
       y: cp1.y + (p.y - this.currentY_) / 3.0
     };
-
     bezierCurveTo(this, cp1, cp2, p);
   };
 
@@ -389,23 +283,17 @@ if (!document.createElement('canvas').getContext) {
                                   aStartAngle, aEndAngle, aClockwise) {
     aRadius *= Z;
     var arcType = aClockwise ? 'at' : 'wa';
-
     var xStart = aX + mc(aStartAngle) * aRadius - Z2;
     var yStart = aY + ms(aStartAngle) * aRadius - Z2;
-
     var xEnd = aX + mc(aEndAngle) * aRadius - Z2;
     var yEnd = aY + ms(aEndAngle) * aRadius - Z2;
-
-    // IE won't render arches drawn counter clockwise if xStart == xEnd.
     if (xStart == xEnd && !aClockwise) {
       xStart += 0.125; // Offset xStart by 1/80 of a pixel. Use something
                        // that can be represented in binary
     }
-
     var p = this.getCoords_(aX, aY);
     var pStart = this.getCoords_(xStart, yStart);
     var pEnd = this.getCoords_(xEnd, yEnd);
-
     this.currentPath_.push({type: arcType,
                            x: p.x,
                            y: p.y,
@@ -414,7 +302,6 @@ if (!document.createElement('canvas').getContext) {
                            yStart: pStart.y,
                            xEnd: pEnd.x,
                            yEnd: pEnd.y});
-
   };
 
   contextPrototype.rect = function(aX, aY, aWidth, aHeight) {
@@ -428,28 +315,24 @@ if (!document.createElement('canvas').getContext) {
   contextPrototype.strokeRect = function(aX, aY, aWidth, aHeight) {
     var oldPath = this.currentPath_;
     this.beginPath();
-
     this.moveTo(aX, aY);
     this.lineTo(aX + aWidth, aY);
     this.lineTo(aX + aWidth, aY + aHeight);
     this.lineTo(aX, aY + aHeight);
     this.closePath();
     this.stroke();
-
     this.currentPath_ = oldPath;
   };
 
   contextPrototype.fillRect = function(aX, aY, aWidth, aHeight) {
     var oldPath = this.currentPath_;
     this.beginPath();
-
     this.moveTo(aX, aY);
     this.lineTo(aX + aWidth, aY);
     this.lineTo(aX + aWidth, aY + aHeight);
     this.lineTo(aX, aY + aHeight);
     this.closePath();
     this.fill();
-
     this.currentPath_ = oldPath;
   };
 
@@ -476,18 +359,12 @@ if (!document.createElement('canvas').getContext) {
 
   contextPrototype.drawImage = function(image, var_args) {
     var dx, dy, dw, dh, sx, sy, sw, sh;
-
-    // to find the original width we overide the width and height
     var oldRuntimeWidth = image.runtimeStyle.width;
     var oldRuntimeHeight = image.runtimeStyle.height;
     image.runtimeStyle.width = 'auto';
     image.runtimeStyle.height = 'auto';
-
-    // get the original size
     var w = image.width;
     var h = image.height;
-
-    // and remove overides
     image.runtimeStyle.width = oldRuntimeWidth;
     image.runtimeStyle.height = oldRuntimeHeight;
 
@@ -517,28 +394,16 @@ if (!document.createElement('canvas').getContext) {
     } else {
       throw Error('Invalid number of arguments');
     }
-
     var d = this.getCoords_(dx, dy);
-
     var w2 = sw / 2;
     var h2 = sh / 2;
-
     var vmlStr = [];
-
     var W = 10;
     var H = 10;
-
-    // For some reason that I've now forgotten, using divs didn't work
     vmlStr.push(' <g_vml_:group',
                 ' coordsize="', Z * W, ',', Z * H, '"',
                 ' coordorigin="0,0"' ,
                 ' style="width:', W, 'px;height:', H, 'px;position:absolute;');
-
-    // If filters are necessary (rotation exists), create them
-    // filters are bog-slow, so only create them if abbsolutely necessary
-    // The following check doesn't account for skews (which don't exist
-    // in the canvas spec (yet) anyway.
-
     if (this.m_[0][0] != 1 || this.m_[0][1]) {
       var filter = [];
 
@@ -549,17 +414,12 @@ if (!document.createElement('canvas').getContext) {
                   'M22=', this.m_[1][1], ',',
                   'Dx=', mr(d.x / Z), ',',
                   'Dy=', mr(d.y / Z), '');
-
-      // Bounding box calculation (need to minimize displayed area so that
-      // filters don't waste time on unused pixels.
       var max = d;
       var c2 = this.getCoords_(dx + dw, dy);
       var c3 = this.getCoords_(dx, dy + dh);
       var c4 = this.getCoords_(dx + dw, dy + dh);
-
       max.x = m.max(max.x, c2.x, c3.x, c4.x);
       max.y = m.max(max.y, c2.y, c3.y, c4.y);
-
       vmlStr.push('padding:0 ', mr(max.x / Z), 'px ', mr(max.y / Z),
                   'px 0;filter:progid:DXImageTransform.Microsoft.Matrix(',
                   filter.join(''), ", sizingmethod='clip');")
@@ -588,7 +448,6 @@ if (!document.createElement('canvas').getContext) {
     var a = processStyle(aFill ? this.fillStyle : this.strokeStyle);
     var color = a.color;
     var opacity = a.alpha * this.globalAlpha;
-
     var W = 10;
     var H = 10;
 
@@ -637,12 +496,6 @@ if (!document.createElement('canvas').getContext) {
           break;
       }
 
-
-      // TODO: Following is broken for curves due to
-      //       move to proper paths.
-
-      // Figure out dimensions so we can do gradient fills
-      // properly
       if (p) {
         if (min.x == null || p.x < min.x) {
           min.x = p.x;
@@ -662,9 +515,6 @@ if (!document.createElement('canvas').getContext) {
 
     if (!aFill) {
       var lineWidth = this.lineScale_ * this.lineWidth;
-
-      // VML cannot correctly render a line if the width is less than 1px.
-      // In that case, we dilute the color to make the line look thinner.
       if (lineWidth < 1) {
         opacity *= lineWidth;
       }
@@ -698,14 +548,9 @@ if (!document.createElement('canvas').getContext) {
         var dx = p1.x - p0.x;
         var dy = p1.y - p0.y;
         angle = Math.atan2(dx, dy) * 180 / Math.PI;
-
-        // The angle should be a non-negative number.
         if (angle < 0) {
           angle += 360;
         }
-
-        // Very small angles produce an unexpected result because they are
-        // converted to a scientific notation string.
         if (angle < 1e-6) {
           angle = 0;
         }
@@ -724,28 +569,20 @@ if (!document.createElement('canvas').getContext) {
         shift = 2 * fillStyle.r0_ / dimension;
         expansion = 2 * fillStyle.r1_ / dimension - shift;
       }
-
-      // We need to sort the color stops in ascending order by offset,
-      // otherwise IE won't interpret it correctly.
       var stops = fillStyle.colors_;
       stops.sort(function(cs1, cs2) {
         return cs1.offset - cs2.offset;
       });
-
       var length = stops.length;
       var color1 = stops[0].color;
       var color2 = stops[length - 1].color;
       var opacity1 = stops[0].alpha * this.globalAlpha;
       var opacity2 = stops[length - 1].alpha * this.globalAlpha;
-
       var colors = [];
       for (var i = 0; i < length; i++) {
         var stop = stops[i];
         colors.push(stop.offset * expansion + shift + ' ' + stop.color);
       }
-
-      // When colors attribute is used, the meanings of opacity and o:opacity2
-      // are reversed.
       lineStr.push('<g_vml_:fill type="', fillStyle.type_, '"',
                    ' method="none" focus="100%"',
                    ' color="', color1, '"',
@@ -759,23 +596,16 @@ if (!document.createElement('canvas').getContext) {
       lineStr.push('<g_vml_:fill color="', color, '" opacity="', opacity,
                    '" />');
     }
-
     lineStr.push('</g_vml_:shape>');
-
     this.element_.insertAdjacentHTML('beforeEnd', lineStr.join(''));
   };
-
   contextPrototype.fill = function() {
     this.stroke(true);
   }
-
   contextPrototype.closePath = function() {
     this.currentPath_.push({type: 'close'});
   };
 
-  /**
-   * @private
-   */
   contextPrototype.getCoords_ = function(aX, aY) {
     var m = this.m_;
     return {
@@ -813,12 +643,7 @@ if (!document.createElement('canvas').getContext) {
       return;
     }
     ctx.m_ = m;
-
     if (updateLineScale) {
-      // Get the line scale.
-      // Determinant of this.m_ means how much the area is enlarged by the
-      // transformation. So its square root can be used as a scale factor
-      // for width.
       var det = m[0][0] * m[1][1] - m[0][1] * m[1][0];
       ctx.lineScale_ = sqrt(abs(det));
     }
@@ -830,20 +655,17 @@ if (!document.createElement('canvas').getContext) {
       [0,  1,  0],
       [aX, aY, 1]
     ];
-
     setM(this, matrixMultiply(m1, this.m_), false);
   };
 
   contextPrototype.rotate = function(aRot) {
     var c = mc(aRot);
     var s = ms(aRot);
-
     var m1 = [
       [c,  s, 0],
       [-s, c, 0],
       [0,  0, 1]
     ];
-
     setM(this, matrixMultiply(m1, this.m_), false);
   };
 
@@ -855,7 +677,6 @@ if (!document.createElement('canvas').getContext) {
       [0,  aY, 0],
       [0,  0,  1]
     ];
-
     setM(this, matrixMultiply(m1, this.m_), true);
   };
 
@@ -865,7 +686,6 @@ if (!document.createElement('canvas').getContext) {
       [m21, m22, 0],
       [dx,  dy,  1]
     ];
-
     setM(this, matrixMultiply(m1, this.m_), true);
   };
 
@@ -875,24 +695,19 @@ if (!document.createElement('canvas').getContext) {
       [m21, m22, 0],
       [dx,  dy,  1]
     ];
-
     setM(this, m, true);
   };
 
-  /******** STUBS ********/
   contextPrototype.clip = function() {
-    // TODO: Implement
   };
 
   contextPrototype.arcTo = function() {
-    // TODO: Implement
   };
 
   contextPrototype.createPattern = function() {
     return new CanvasPattern_;
   };
 
-  // Gradient / Pattern Stubs
   function CanvasGradient_(aType) {
     this.type_ = aType;
     this.x0_ = 0;
@@ -913,7 +728,6 @@ if (!document.createElement('canvas').getContext) {
 
   function CanvasPattern_() {}
 
-  // set up externs
   G_vmlCanvasManager = G_vmlCanvasManager_;
   CanvasRenderingContext2D = CanvasRenderingContext2D_;
   CanvasGradient = CanvasGradient_;
@@ -921,4 +735,4 @@ if (!document.createElement('canvas').getContext) {
 
 })();
 
-} // if
+}

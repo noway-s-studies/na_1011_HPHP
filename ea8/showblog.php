@@ -1,7 +1,6 @@
 <?php
     include_once 'inc/init.php';
-
-    // ide jon a jogosultsagkezeles (lapszintu)
+    // ide jon a jogosultsagkezeles (lapszintu) validalas
     $bid=0;
     if(isset($_GET["bid"])) $bid=$_GET["bid"];
     $blog=Doctrine_Core::getTable('Blog')->find($bid);
@@ -11,13 +10,9 @@
     if(!$blog->visible) {
         header("Location: noaccess.php"); exit();
     }
-    // validalas
-
     $kid=$blog->kid;
     $uid=$blog->uid;
-
     print "UID: ".$uid;
-
     $kat=Doctrine_Core::getTable('Kategoria')->find($kid);
     $user=Doctrine_Core::getTable('User')->find($uid);
     $kategorianev=$kat->nev;
@@ -28,8 +23,6 @@
     $cim=$blog->cim;
     $cikk=$blog->cikk;
     $datum=$blog->datum;
-
-
     include_once 'inc/head.php';
 ?>
 <script type="text/javascript">
@@ -45,7 +38,6 @@
 <div id="middle">
 <?php
     show_uzenet();
-    // ide jon a kod
 ?>
     <div id="blog">
         <?php
@@ -56,7 +48,6 @@
             print "<div class='cikk'>$cikk</div>";
             print "<p><i>$datum</i></p>";
             print "<hr>";
-
             $q=Doctrine_Query::create()->from('Blog b')
                                        ->where('b.bid = ?',$bid);
             $blog=$q->execute();
@@ -66,7 +57,6 @@
             }
             print "<hr>";
         ?>
-
         <textarea cols="30" rows="5" id="szoveg">
         </textarea>
         <br />
@@ -74,12 +64,10 @@
         <div id="posteredmeny"></div>
         <hr>
         <div id="commentlisthead">
-            Kommentek mutatása&nbsp;&nbsp;&nbsp;<img src="img/indicator.gif" class="hidden" id="indicator">
+            Kommentek mutatása&nbsp;&nbsp;&nbsp;
+            <img src="img/indicator.gif" class="hidden" id="indicator">
         </div>
-        <div id="commentlist" class="hidden">
-
-        </div>
-
+        <div id="commentlist" class="hidden"></div>
         <script type="text/javascript">
             function postcomment() {
                 var szoveg=$("#szoveg").val();
@@ -93,8 +81,6 @@
                     }
                 );
             }
-
-
             $("#indicator").ajaxStart(
                 function() {
                     $(this).show();
@@ -106,7 +92,6 @@
                     $.unblockUI();
                 }
             );
-
             $(document).ready(
                 function() {
                     var nyitva=0;
@@ -123,11 +108,7 @@
                 }
             );
         </script>
-
-
-
     </div>
-
 </div>
 <?php
     include_once 'inc/footer.php';

@@ -1,10 +1,7 @@
 <?php
     include_once 'inc/init.php';
-    // validalas
-
-    // teszteljuk mintha lassu lenne
+    // ide jon a jogosultsagkezeles (lapszintu) validalas
     usleep(2000000);
-
     $bid=0;
     if(isset($_GET["bid"])) $bid=$_GET["bid"];
     $sql="SELECT c.szoveg,u.nev,c.datum FROM Comment as c ";

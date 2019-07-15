@@ -1,6 +1,9 @@
 <?php
     include_once 'inc/init.php';
-    // ide jon a jogosultsagkezeles (lapszintu) validalas
+
+    // ide jon a jogosultsagkezeles (lapszintu)
+    // validalas
+
     include_once 'inc/head.php';
 ?>
 <script type="text/javascript">
@@ -8,23 +11,23 @@
         function() { }
     )
 </script>
-<title>BlogMotor - kijelentkezés</title>
+<title>Kijelentkezés</title>
 <?php
     include_once 'inc/header.php';
     include_once 'inc/menu.php';
 ?>
 <div id="middle">
 <?php
-    show_uzenet();
-    add_log("LOGOUT","Usernev: ".$glob_usernev);
+    // ide jon a kod
     session_destroy();
     session_unset();
-    print create_uzi("Sikeres kijelentkezés!","accept");
+    print create_uzi("Sikeres kijelentkezés", "accept");
+
 ?>
-    <script type="text/javascript">
-        setTimeout("window.location='index.php'",4000);
-    </script>
 </div>
+<script type="text/javascript">
+    setTimeout("window.location='index.php'", 3000);
+</script>
 <?php
     include_once 'inc/footer.php';
 ?>

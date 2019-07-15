@@ -1,114 +1,63 @@
 
 #page {
-    width: 900px;
     border: 1px solid black;
-    background-color: #FFE699;
+    background-color: #ccffcc;
+    width: 1000px;
+    margin-left: auto;
+    margin-right: auto;
 }
 
 #header {
-    height: 60px;
-    background-color: #FFCC33;
     border-bottom: 1px solid black;
-}
-
-#footer {
-    clear: both;
-    height: 60px;
-    background-color: #FFCC33;
-    border-top: 1px solid black;
+    background-color: #cccccc;
+    height: 50px;
+    padding: 10px;
 }
 
 #main {
-    min-height: 400px;
-    background-color: #FFD966;
+    background-color: #ccffcc;
+    min-height: 350px;
 }
 
 #left {
+    background-color: #ccffcc;
     float: left;
-    width: 150px;
-    padding: 10px;    
-    background-color: #FFD966;
-}
-
-#right {
-    float: right;
-    width: 150px;
     padding: 10px;
-    background-color: #FFD966;
 }
 
 #middle {
-    margin-left: 180px;
-    margin-right: 180px;
-    padding: 10px;
-    min-height: 400px;
-  	height:auto !important;
-		height: 400px;
-    background-color: #FFE699;
+    float: right;
+    width: 700px;
     border-left: 1px solid black;
-    border-right: 1px solid black;
+    background-color: #ccffcc;
+    min-height: 400px;
+    padding: 10px;
 }
 
-.editmezo {
-    width: 200px;
+#footer {
+    border-top: 1px solid black;
+    background-color: #cccccc;
+    height: 50px;
+    clear: both;
+    padding: 10px;
 }
 
-.warning_uzi {
-    font-weight: 700;
-    color: magenta;
-}
-.error_uzi {
-    font-weight: 700;
-    color: red;
-}
-.accept_uzi {
-    font-weight: 700;
+.accept {
     color: green;
 }
 
-
-.userkep {
-		width: 100px;
-		padding: 3px;
-		border: 1px solid #c0c0c0;
+.warning {
+    color: blueviolet;
 }
 
-.bloguserkep {
-		float: right;
-		width: 150px;
-		padding: 3px;
-		margin: 10px;
-		border: 1px solid #c0c0c0;
-}
-
-
-.commenthead {
-    padding: 5px;
-    cursor: pointer;
-    background-color: #ffd24d;
-    font-weight: 500;
-    margin: 1px;
-}
-
-.commentbody {
-    padding: 5px;
-    background-color: #ffecb3;
-}
-
-#commentlisthead {
-    padding: 10px;
-    cursor: pointer;
-    background-color: #cccc99;
-    font-weight: 700;
-    color: blue;
-}
-
-.hidden {
-    display: none;
+.error {
+    color: red;
 }
 
 .watermark {
-    color: #f65 !important;
+    color: red !important;
 }
 
-
+.editmezo {
+    width: 600px;
+}

@@ -1,14 +1,10 @@
 <?php
     include_once 'inc/init.php';
-
-    // ide jon a jogosultsagkezeles (lapszintu)
-    // validalas
-
+    // ide jon a jogosultsagkezeles (lapszintu) validalas
     if(isset($_POST["submit"]))
         $isposted=true;
     else
         $isposted=false;
-
     if($isposted) {
         $uzenet=array();
         $email="";
@@ -45,7 +41,6 @@
 <div id="middle">
 <?php
     show_uzenet();
-    // ide jon a kod
 ?>
     <div id="loginurlap">
         <form action="login.php" method="post">

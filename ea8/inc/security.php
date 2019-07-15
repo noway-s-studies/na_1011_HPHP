@@ -1,15 +1,11 @@
 <?php
     add_log("URL", $url);
-
     $postdata="";
     foreach ($_POST as $key => $value) {
         if(strpos($key,'password')===false)
             $postdata.=">$key = $value< ";
     }
     if(strlen($postdata)>0) add_log("POST",$postdata);
-
-    // vedelem: hacker detektalas
-    // jogosultsag figyeles
 
     function user_try_login($email,$password) {
         global $glob_salt;
@@ -32,8 +28,6 @@
             return false;
         }
     }
-
-
     function user_is_logged() {
         global $glob_uid;
         if(is_numeric($glob_uid) && $glob_uid>0)
@@ -41,6 +35,4 @@
         else
             return false;
     }
-
-
 ?>

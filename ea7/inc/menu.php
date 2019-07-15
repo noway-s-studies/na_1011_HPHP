@@ -1,32 +1,28 @@
-      <div id="left">
-          <?php
-            if(user_is_logged()) {
-                $u=Doctrine_Core::getTable('User')->find($glob_uid);
-                $kepsrc=userpicture_url($u->picture);
-                print "<img src='$kepsrc' class='userkep' />";
-                print "<p>Bejelentkezve:</p>";
-                print "<p>$glob_usernev</p>";
-                print "<ul>";
-                print "<li><a href='index.php'>Főoldal</a></li>";
-                print "<li><a href='logout.php'>Kijelentkezés</a></li>";
-                print "<li><a href='useredit.php'>Adataim</a></li>";
-                print "<li><a href='changepassword.php'>Jelszó módosítás</a></li>";
-                print "<li><a href='blogs.php'>Összes blog</a></li>";
-                print "<li><a href='newblog.php'>Új blog</a></li>";
-                print "<li><a href='users.php'>Szerzők</a></li>";
-                print "<li><a href='stats.php'>Statisztikák</a></li>";
-                print "</ul>";
-            } else {
-                print "<ul>";
-                print "<li><a href='index.php'>Főoldal</a></li>";
-                print "<li><a href='register.php'>Regisztráció</a></li>";
-                print "<li><a href='login.php'>Bejelentkezés</a></li>";
-                print "<li><a href='blogs.php'>Összes blog</a></li>";
-                print "<li><a href='users.php'>Szerzők</a></li>";
-                print "</ul>";
-            }
-          ?>
-      </div>
-      <div id="right">
-          reklámok
-      </div>
+<!-- MENU START --> 
+                <div id="left">
+                    <h2>Menü</h2>
+                    <?php
+                        if(isset($_SESSION["user"])) {
+                            print "<p>Bejelentkezve:</p>";
+                            print "<p><b>".$_SESSION["user"]->nev."</b></p>";
+                            print "<ul>";
+                            print "<li><a href='index.php'>Főoldal</a></li>";
+                            print "<li><a href='logout.php'>Kijelentkezés</a></li>";
+                            print "<li><a href='#' onClick='Load_ChangePasswordForm()'>Jelszó módosítása</a></li>";
+                            print "<li><a href='#' onClick='Load_TesztKerdesForm()'>Új tesztkérdés</a></li>";
+                            print "<li><a href='pdftesztkerdesek.php'>Teszt PDF-ben</a></li>";
+                            print "<li><a href='#' onClick='Load_OsszesTesztKerdesForm()'>Összes tesztkérdés</a></li>";
+                            print "</ul>";
+                            
+                            Teszt::TesztkerdesekTable(1);
+                            
+                        } else {
+                            print "<ul>";
+                            print "<li><a href='index.php'>Főoldal</a></li>";
+                            print "<li><a href='register.php'>Regisztráció</a></li>";
+                            print "<li><a href='login.php'>Login</a></li>";
+                            print "</ul>";
+                        }
+                    ?>
+                </div>
+<!-- MENU END --> 
